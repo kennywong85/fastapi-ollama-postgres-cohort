@@ -152,8 +152,8 @@ python3 --version    # or `python --version` on Windows
 > **Windows: pick a short, OneDrive-free path before cloning.** Use `C:\dev\` or `C:\code\` — create it if it doesn't exist (`mkdir C:\dev` then `cd C:\dev`). **Do not** clone into `Documents`, `Desktop`, or anything under `OneDrive`. Three real reasons: (1) Documents is silently redirected to `C:\Users\<you>\OneDrive\Documents\` on most modern Windows installs, and OneDrive's background sync interferes with `pip install` and Python's file-watching; OneDrive can also mark files as "online-only" so they appear missing to scripts. (2) Windows has a 260-character path limit; the OneDrive prefix burns a lot of those characters before the repo, the venv, and `site-packages` are even added — `psycopg[binary]`'s bundled libpq files in particular hit this limit. (3) Spaces in the user-folder name (`C:\Users\First Last\...`) break some shell scripts in subtle ways. A short path like `C:\dev\fastapi-ollama-postgres` avoids all three.
 
 ```bash
-git clone https://github.com/SwarupSG/fastapi-ollama-postgres.git
-cd fastapi-ollama-postgres
+git clone https://github.com/SwarupSG/fastapi-ollama-postgres-cohort.git
+cd fastapi-ollama-postgres-cohort
 ```
 
 (If you don't want to use git, click the green **Code** button on the GitHub page and "Download ZIP", then unzip and `cd` into the folder.)

@@ -67,9 +67,27 @@ If the learner asks for help with something that belongs in a later module (e.g.
 
 ## 4. Friction reduction
 
-- When the learner runs into the macOS Postgres-superuser issue (`role "postgres" does not exist`), the fix is `psql -d postgres -c "CREATE USER postgres WITH PASSWORD 'postgres' SUPERUSER;"`. Surface this immediately.
-- When the learner can't activate the venv on Windows due to PowerShell execution policy, the fix is `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`.
-- When the learner sees `KeyError: 'DATABASE_URL'` in Module 8, the fix is `cp .env.example .env`. This is the *intended* failure mode, not a bug.
+The instructor is macOS-only; the cohort is ~90% Windows. **You (Gemini) are the Windows-aware first responder for every learner on a Windows machine** — the instructor cannot reproduce a Windows environment to debug live. Surface these fixes immediately when the symptom appears; do not ask the learner three diagnostic questions first.
+
+### macOS
+
+- **`role "postgres" does not exist`** (when the learner runs the Module 0 verify script or any `psql` command): the fix is `psql -d postgres -c "CREATE USER postgres WITH PASSWORD 'postgres' SUPERUSER;"`. Homebrew Postgres only creates an OS-named role by default; the course expects the conventional `postgres` superuser.
+
+### Windows
+
+- **`Activate.ps1 cannot be loaded because running scripts is disabled`** (PowerShell execution policy): `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`. One-time per user account.
+- **`psql: command not found` (or `'psql' is not recognized as ... cmdlet`)** after the EnterpriseDB Postgres installer ran: PATH was not updated. Add `C:\Program Files\PostgreSQL\<version>\bin\` to the User PATH variable. Critical UI trap: in the Environment Variables dialog, the learner must select the existing **Path** row and click **Edit** to add an entry inside it, NOT click **New** to create a brand-new variable named "psql" (a brand-new sibling variable does nothing — only the `Path` variable resolves executables). Persistent fix in PowerShell: `[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\PostgreSQL\<version>\bin", "User")`. **Then close every open PowerShell window and reopen one fresh** — PATH is read at shell startup; existing windows do not pick up persistent changes.
+- **`python: command not found`** (or `python3` doesn't exist on Windows): the Windows Python installer registers `python.exe`, not `python3.exe`. Use `python` in Windows commands. If `python` itself is missing, the learner did not tick "Add Python to PATH" during install — re-run the installer with that box ticked, OR use the `py` launcher.
+- **"Unable to symlink" warnings during `python -m venv venv`**: harmless on Windows. Without Developer Mode (Settings → For Developers) or admin rights, Python's venv module falls back to copying the python executable. Looks like an error to beginners; it is expected noise. The venv works fine.
+- **Repo cloned into `Documents`, `Desktop`, or any `OneDrive`-prefixed path → install errors, file-not-found errors, `psycopg[binary]` import failures**: re-clone to a short, OneDrive-free path like `C:\dev\` or `C:\code\`. Three reasons compound here: (1) Documents is silently OneDrive-redirected on most Windows installs, and OneDrive can mark files online-only; (2) the 260-character MAX_PATH limit; (3) spaces in user-folder names break some shell scripts.
+- **"Stack Builder" prompt at end of Postgres install**: optional and not needed for this course. Close the window without selecting any add-on.
+- **Postgres installer version drift**: EnterpriseDB now ships v18 (was v16 in 2024). The course works on 16/17/18 — keep `<version>` in any path command, do not hardcode.
+- **Ollama not auto-starting on Windows**: launch Ollama once from the Start Menu after install. Then `ollama pull llama3.2` in PowerShell.
+- **Per-module `verify_module_N.sh` scripts (Modules 1-8) ship as bash only**: on Windows, the learner can run them via Git Bash (installed alongside Git for Windows), OR translate to PowerShell themselves with your help. The Module 0 `verify_setup.ps1` IS shipped as native PowerShell.
+
+### Both platforms
+
+- **`KeyError: 'DATABASE_URL'`** in Module 8 (or any later module that reads env vars): the fix is `cp .env.example .env` (macOS / Linux) or `Copy-Item .env.example .env` (Windows). **This is the *intended* failure mode of Module 8's loud-fail demo, not a bug.** Do not suggest "fix" by adding `os.environ.get("DATABASE_URL", "default")` — that violates the Module 8 doctrine.
 
 ---
 
