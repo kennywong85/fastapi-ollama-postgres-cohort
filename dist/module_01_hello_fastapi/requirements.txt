@@ -1,0 +1,8 @@
+# Pinned dependencies for the Local LLM Question Log.
+# Discipline: every `pip install <pkg>` must be preceded by adding the
+# pinned line here, then `pip install -r requirements.txt`.
+# Never `pip install` ad-hoc and forget to record it.
+
+fastapi==0.115.*
+uvicorn[standard]==0.32.*
+jinja2==3.1.*
