@@ -56,7 +56,7 @@ You're entering the build-phase of the curriculum. The prompts here are mixed â€
 > Help me write three different system prompts: one that makes the model answer in haiku format, one that makes it always cite a date, and one that constrains it to one-word answers. For each, predict what will happen, then we'll test together.
 
 **The meta moment** â€” your instructor will probably tell you to ask this:
-> Open `.agents/rules/doctrine.md` in the file tree. That's the system prompt that has been shaping you (Gemini) for this entire course. Walk me through how that file is doing the same job for you that `SYSTEM_PROMPT` is doing for `llama3.2`. What's the same? What's different?
+> Open `AGENTS.md` at the workspace root in the file tree. That's the system prompt that has been shaping you (Gemini) for this entire course. Walk me through how that file is doing the same job for you that `SYSTEM_PROMPT` is doing for `llama3.2`. What's the same? What's different?
 
 **Self-check before you move to Module 5:**
 > I'm about to be asked: *"Why does the system prompt go into the same `messages` array as the user's question? Why isn't it a separate API parameter?"* Don't answer it. Ask me what I think the answer is. Then tell me whether my reasoning holds together.

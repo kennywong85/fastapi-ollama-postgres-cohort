@@ -94,7 +94,7 @@ Two surfaces, both available all the time:
 - **Chat panel** (right side of Antigravity) — paste the **Primary prompt** from each module's README. Gemini explains the code Socratically: it'll usually ask you what you think before delivering the answer. Ask follow-ups freely.
 - **Inline autocomplete** — as you type code, Gemini suggests completions. Suggestions stay scoped to whichever `dist/module_NN_*/` folder you have open, so you don't get Module 5's Postgres code while you're typing in Module 3.
 
-Why does Gemini behave this way? Because two files in this repo — [`.agents/rules/doctrine.md`](.agents/rules/doctrine.md) and [`.agents/rules/curriculum-mode.md`](.agents/rules/curriculum-mode.md) — are loaded into Gemini's context whenever Antigravity opens the workspace. They are Gemini's "system prompt" for this course. Module 4 is when you'll build the same kind of file for `llama3.2`. The deepest moment in the course is when you realise you've been living inside one all morning.
+Why does Gemini behave this way? Because [`AGENTS.md`](AGENTS.md) at the root of this repo is loaded into Gemini's context whenever Antigravity opens the workspace. That file is Gemini's "system prompt" for this course. (Cursor and Claude Code also read `AGENTS.md` — same rules, any IDE.) Module 4 is when you'll build the same kind of file for `llama3.2`. The deepest moment in the course is when you realise you've been living inside one all morning.
 
 ## Module map
 
