@@ -132,7 +132,9 @@ Each module section in the crash course follows a consistent pattern: notional m
 
 ## Publish your work
 
-At the end of Module 8 you have a complete, working V1. The closing step of the course is to publish your version to your own GitHub as a portfolio piece. The walk-through (fresh `git init`, `gh repo create`, push) lives in the crash course's "Publish Your Work" appendix.
+At the end of Module 8 you have a complete, working V1. The closing step of the course is to publish your version to your own GitHub as a portfolio piece — your "I built this" you can show to recruiters and managers.
+
+The walk-through is in **[`docs/publish_your_work.md`](docs/publish_your_work.md)** — ~30 minutes, copy-paste-ready commands for both macOS and Windows, a personal-README template you can adapt, and a list of meaningful next-step extensions (chat sessions, RAG, streaming, deploy).
 
 ## Where to get help
 
