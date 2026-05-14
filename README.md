@@ -10,72 +10,13 @@ This repo is your starting point. You'll work through it module-by-module during
 
 The course is designed for adult mid-career learners. You don't need to be an expert coder — you need to be willing to read code carefully, ask good questions, and build a mental model of how the pieces fit together. The AI partner in your IDE (Gemini in Antigravity) is configured to coach, not to do the work for you.
 
-## Before class — pre-flight checklist
+## Before class
 
-**Do this once, at home, before the live session.** Allow ~30 minutes if you're installing tools for the first time, ~10 minutes if you already have most of them. **Installs do not scale on a 40-person Zoom call** — anyone who arrives without these working will spend the live block catching up instead of learning.
+**Do this once, at home, before the live session.** Installs do not scale on a 40-person Zoom call — anyone who arrives without these working will spend the live block catching up instead of learning.
 
-The four tools you need:
+**Single source of truth:** **[`docs/before_class.md`](docs/before_class.md)** is the full checklist — accounts to sign up for, mobile apps to install, AI partner apps, every tool with macOS + Windows commands, Antigravity install and GitHub-from-chat setup, both cohort repo clones, and a night-before verification. Work through it top to bottom; tick each box as you finish.
 
-| # | Install | Why this course needs it |
-|---|---|---|
-| 1 | **Python 3.11+** | The web server runtime. |
-| 2 | **Postgres 16+** | Where the question/answer history lives. You also create one database (`llm_question_log`) and apply one schema file. |
-| 3 | **Ollama** with the `llama3.2` model pulled (~2 GB one-time download) | The local LLM your app calls. |
-| 4 | **[Google Antigravity](https://antigravity.google)** signed in with Gemini enabled | Your IDE for the course. Gemini is your in-editor AI partner. |
-
-The full step-by-step install walk-through (macOS + Windows variants for every command) is in **[`docs/crash_course.md`](docs/crash_course.md) Module 0**. Read it once, follow it once, do not skip the database-creation and schema-apply steps.
-
-Then **clone this repo to a sane path** and open the folder in Antigravity:
-
-```bash
-# macOS / Linux:
-git clone https://github.com/SwarupSG/fastapi-ollama-postgres-cohort.git
-cd fastapi-ollama-postgres-cohort
-# Windows (PowerShell) — use a SHORT path, NOT Documents/Desktop/OneDrive:
-#   cd C:\dev    # or C:\code — create it if needed
-#   git clone https://github.com/SwarupSG/fastapi-ollama-postgres-cohort.git
-#   cd fastapi-ollama-postgres-cohort
-```
-
-(Why a short path on Windows? OneDrive sync, the 260-character path limit, and spaces in user folders all break Python's `psycopg[binary]`. Crash course Module 0 explains in full.)
-
-### Prove your services are running (the "am I ready?" check)
-
-Binary on PATH ≠ service running. Run all three of these. Each must produce non-error output:
-
-```bash
-# 1. Python is installed at the right version:
-python --version           # Windows
-python3 --version          # macOS / Linux
-# → expected: Python 3.11.x or higher
-
-# 2. Postgres is REACHABLE (not just installed):
-pg_isready -h localhost
-# → expected: localhost:5432 - accepting connections
-
-# 3. Ollama is reachable AND llama3.2 is pulled:
-curl -s -X POST http://localhost:11434/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"model":"llama3.2","messages":[{"role":"user","content":"hi"}],"stream":false}'
-# → expected: a JSON response with a "message" field containing some text from llama3.2
-#   If you see "model not found", run:  ollama pull llama3.2
-#   If the curl hangs or errors, Ollama isn't running — start it.
-```
-
-### One-shot full check
-
-After the three above pass and you've cloned the repo + created the venv + applied the schema (per crash course Module 0), run the eight-check script that mirrors what the live block will run:
-
-```bash
-# macOS / Linux:
-./scripts/verify_setup.sh
-# Windows (PowerShell):
-.\scripts\verify_setup.ps1
-```
-
-Eight green ✓ lines ending with *"All checks passed. You're ready for Module 1."* means you're ready. Each ✗ line tells you the exact one-line command to fix it.
-
-**If anything fails after you've worked through the crash course:** open Antigravity, paste the failing ✗ line into the Gemini chat panel along with the crash course's Module 0 install steps you've already done. Gemini will coach you to the fix. The live block's instructor is your last resort, not your first.
+If anything fails: open the cohort folder in Antigravity, paste the failing line into the Gemini chat panel. Gemini has the doctrine + friction reducers loaded and will walk you through the fix. The live session's instructor is your last resort, not your first.
 
 ## The 5-step Class Flow (same pattern in every module)
 
