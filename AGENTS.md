@@ -67,27 +67,36 @@ If the learner asks for help with something that belongs in a later module (e.g.
 
 ## 4. Friction reduction
 
-The instructor is macOS-only; the cohort is ~90% Windows. **You are the Windows-aware first responder for every learner on a Windows machine** — the instructor cannot reproduce a Windows environment to debug live. Surface these fixes immediately when the symptom appears; do not ask the learner three diagnostic questions first.
+The instructor is macOS-only; the cohort is ~90% Windows users running **WSL2 (Ubuntu)** as their development environment. **You are the WSL2-aware first responder for every learner on a Windows machine** — the instructor cannot reproduce a WSL2 environment to debug live. Surface these fixes immediately when the symptom appears; do not ask the learner three diagnostic questions first.
 
 ### macOS
 
 - **`role "postgres" does not exist`** (when the learner runs the Module 0 verify script or any `psql` command): the fix is `psql -d postgres -c "CREATE USER postgres WITH PASSWORD 'postgres' SUPERUSER;"`. Homebrew Postgres only creates an OS-named role by default; the course expects the conventional `postgres` superuser.
 
-### Windows
+### Linux / WSL2 on Windows
 
-- **`Activate.ps1 cannot be loaded because running scripts is disabled`** (PowerShell execution policy): `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`. One-time per user account.
-- **`psql: command not found` (or `'psql' is not recognized as ... cmdlet`)** after the EnterpriseDB Postgres installer ran: PATH was not updated. Add `C:\Program Files\PostgreSQL\<version>\bin\` to the User PATH variable. Critical UI trap: in the Environment Variables dialog, the learner must select the existing **Path** row and click **Edit** to add an entry inside it, NOT click **New** to create a brand-new variable named "psql" (a brand-new sibling variable does nothing — only the `Path` variable resolves executables). Persistent fix in PowerShell: `[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\PostgreSQL\<version>\bin", "User")`. **Then close every open PowerShell window and reopen one fresh** — PATH is read at shell startup; existing windows do not pick up persistent changes.
-- **`python: command not found`** (or `python3` doesn't exist on Windows): the Windows Python installer registers `python.exe`, not `python3.exe`. Use `python` in Windows commands. If `python` itself is missing, the learner did not tick "Add Python to PATH" during install — re-run the installer with that box ticked, OR use the `py` launcher.
-- **"Unable to symlink" warnings during `python -m venv venv`**: harmless on Windows. Without Developer Mode (Settings → For Developers) or admin rights, Python's venv module falls back to copying the python executable. Looks like an error to beginners; it is expected noise. The venv works fine.
-- **Repo cloned into `Documents`, `Desktop`, or any `OneDrive`-prefixed path → install errors, file-not-found errors, `psycopg[binary]` import failures**: re-clone to a short, OneDrive-free path like `C:\dev\` or `C:\code\`. Three reasons compound here: (1) Documents is silently OneDrive-redirected on most Windows installs, and OneDrive can mark files online-only; (2) the 260-character MAX_PATH limit; (3) spaces in user-folder names break some shell scripts.
-- **"Stack Builder" prompt at end of Postgres install**: optional and not needed for this course. Close the window without selecting any add-on.
-- **Postgres installer version drift**: EnterpriseDB now ships v18 (was v16 in 2024). The course works on 16/17/18 — keep `<version>` in any path command, do not hardcode.
-- **Ollama not auto-starting on Windows**: launch Ollama once from the Start Menu after install. Then `ollama pull llama3.2` in PowerShell.
-- **Per-module `verify_module_N.sh` scripts (Modules 1-8) ship as bash only**: on Windows, the learner can run them via Git Bash (installed alongside Git for Windows), OR translate to PowerShell themselves with your help. The Module 0 `verify_setup.ps1` IS shipped as native PowerShell.
+- **Antigravity opens to Windows file paths instead of WSL2 paths** (file tree shows `C:\Users\...` or `\\wsl$\...`, integrated terminal opens PowerShell instead of bash): the learner forgot the Remote-WSL connect step. Fix: in Antigravity press `Ctrl+Shift+P` → type `wsl` → pick **Remote-WSL: Connect to WSL**. The bottom-left of the window then shows `WSL: Ubuntu`. THEN File → Open Folder. Every command the course documents assumes Remote-WSL is connected.
+- **`sudo` password prompt has no visible feedback as the learner types** — this confuses Windows-to-WSL2 newcomers ("my keyboard isn't working"). Tell them: type the **Ubuntu password** set during WSL2 first launch (NOT the Windows password), characters don't appear on screen by design, then press Enter.
+- **Slow `pip install`, slow file watching, slow `psycopg[binary]` import**: the learner cloned the repo into `/mnt/c/...` (the Windows filesystem bridge) instead of `~/code/` inside Ubuntu. Cross-filesystem I/O is 10-50x slower than native. Fix: re-clone into `~/code/` (which is `/home/<username>/code/` inside Ubuntu's native filesystem). Don't try to fix it in place — re-clone.
+- **`pip install ... error: externally-managed-environment`** on Ubuntu 24.04: that's PEP 668 — pip outside a venv is blocked by design. Fix: create and activate a venv first, THEN pip install:
+  ```bash
+  python3 -m venv venv && source venv/bin/activate
+  pip install -r requirements.txt
+  ```
+  The `(venv)` prefix in the prompt is the visual confirmation. The course always works inside a venv anyway.
+- **`pg_isready` says nothing / Postgres unreachable** after install on WSL2: the service isn't started in this WSL session. Fix: `sudo systemctl start postgresql`. If that errors with `System has not been booted with systemd`, fall back to `sudo service postgresql start`. To make Postgres auto-start in future WSL sessions: `sudo systemctl enable postgresql` (one-time).
+- **Ollama returns `connection refused` from the FastAPI app** in WSL2: the Ollama service isn't running. Fix: `sudo systemctl start ollama`. Auto-start: `sudo systemctl enable ollama` (one-time).
+- **`ollama: command not found` inside the Ubuntu terminal** when the learner says they installed Ollama: they likely installed the Windows `.exe` (which lives on the Windows side) instead of running `curl -fsSL https://ollama.com/install.sh | sh` inside WSL2. The course's default is Ollama-inside-WSL2; the Windows-host approach is an advanced GPU-acceleration path documented in `docs/setup_walkthrough.md` **Appendix** (requires `[wsl2] networkingMode=mirrored` in `%UserProfile%\.wslconfig` on Windows 11 22H2+).
+- **`createdb llm_question_log` fails with `role "postgres" does not exist` or `Peer authentication failed for user "<unixuser>"`** on Ubuntu/WSL2: either the postgres password wasn't set, or the learner is running as a unix user that doesn't have a matching PG role. Fix: `sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"` then re-run `createdb`.
+- **`gh auth login` browser doesn't open in WSL2**: paste the URL the terminal shows (`https://github.com/login/device`) into a browser manually. Enter the 8-character code. Approve in the GitHub mobile app.
+- **`git push` rejected with `Permission denied (publickey)`**: the learner picked SSH during `gh auth login` but the remote is HTTPS (or vice versa). Quick fix: re-run `gh auth login` and pick the protocol that matches the remote, OR change the remote to match what gh was configured for (`git remote set-url origin https://github.com/<user>/<repo>.git` for HTTPS).
+- **Per-module `verify_module_N.sh` scripts**: these are bash scripts and run natively inside the Ubuntu (WSL2) terminal. No special handling needed — students run them the same way macOS students do.
 
 ### Both platforms
 
-- **`KeyError: 'DATABASE_URL'`** in Module 8 (or any later module that reads env vars): the fix is `cp .env.example .env` (macOS / Linux) or `Copy-Item .env.example .env` (Windows). **This is the *intended* failure mode of Module 8's loud-fail demo, not a bug.** Do not suggest "fix" by adding `os.environ.get("DATABASE_URL", "default")` — that violates the Module 8 doctrine.
+- **`<command>: command not found`** (`uvicorn`, `pip`, `python3`, `psql`, etc. all from inside the project folder): the venv is not activated in this terminal. Fix: `source venv/bin/activate` from the project folder. The `(venv)` prefix in the prompt is the visual confirmation. **Every new terminal starts without the venv** — activation is a one-time-per-terminal thing.
+- **`KeyError: 'DATABASE_URL'`** in Module 8 (or any later module that reads env vars): the fix is `cp .env.example .env`. **This is the *intended* failure mode of Module 8's loud-fail demo, not a bug.** Do not suggest "fixing" it by adding `os.environ.get("DATABASE_URL", "default")` — that violates the Module 8 doctrine.
+- **First Ollama call after a fresh `ollama serve` / `sudo systemctl start ollama` takes 10-30 seconds**: that's the model loading into RAM (`llama3.2` is ~2 GB). Subsequent calls in the same session are fast (~3-15 seconds depending on CPU vs GPU). Not a bug; not a config issue. Just say "warming up" and wait.
 
 ---
 

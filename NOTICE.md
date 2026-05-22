@@ -10,7 +10,7 @@ This NOTICE is a plain-English explanation of what that means for **this specifi
 
 The student-facing companion repo for the **Local LLM Question Log** training programme — a staged, hands-on course that builds the smallest serious AI web application (Browser → FastAPI → Ollama → Postgres → Browser) one fundamental at a time across nine modules.
 
-It contains the nine per-module checkpoint folders (`dist/module_00_setup/` through `dist/module_08_configuration/`), the V1 final-state code at the repo root, the `AGENTS.md` system prompt for AI partners, and two docs: a pre-class setup checklist (`docs/before_class.md`) and a closing-class capstone (`docs/publish_your_work.md`). The single-file narrative crash course is delivered separately to enrolled students as a PDF during class — it is not part of this public repo.
+It contains the nine per-module checkpoint folders (`dist/module_00_setup/` through `dist/module_08_configuration/`), the V1 final-state code at the repo root, the `AGENTS.md` system prompt for AI partners, and three docs: a pre-class setup checklist (`docs/before_class.md`), a deep hand-holding install walkthrough (`docs/setup_walkthrough.md`), and a closing-class capstone (`docs/publish_your_work.md`). The single-file narrative crash course is delivered separately to enrolled students as a PDF during class — it is not part of this public repo.
 
 The architecture, curriculum design, instructor guide, slides, and PRD come from the corresponding gold-standard reference repo (private). This public repo exists so that students enrolled in the programme can do their hands-on work without needing access to the reference implementation.
 
