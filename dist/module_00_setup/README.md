@@ -19,20 +19,18 @@ There is no `app/` folder yet. This module is verification only. By the end you 
 From this folder, in a terminal inside Antigravity:
 
 ```bash
+# Windows: run all of these inside your Ubuntu (WSL2) terminal — same commands as macOS / Linux.
 python3.11 -m venv venv
-source venv/bin/activate          # Windows: venv\Scripts\Activate.ps1
+source venv/bin/activate
 pip install -r requirements.txt   # empty in Module 0; teaches the muscle
-createdb llm_question_log         # macOS / Linux
-# Windows (PowerShell, after Postgres install + PATH update):
-#   createdb -U postgres llm_question_log
+createdb llm_question_log
 psql -d llm_question_log -f sql/001_create_interactions.sql
 ```
 
 ## Verify (self-check)
 
 ```bash
-./scripts/verify_setup.sh         # macOS/Linux
-.\scripts\verify_setup.ps1        # Windows
+./scripts/verify_setup.sh         # Windows: same command, inside your Ubuntu (WSL2) terminal
 ```
 
 Expected: eight green ✓ lines ending with *"All checks passed. You're ready for Module 1."*
@@ -78,7 +76,7 @@ brew services start postgresql@16
 ./scripts/verify_setup.sh         # back to all green
 ```
 
-(Windows: use `Stop-Service postgresql-x64-<version>` and `Start-Service ...`, or use `services.msc`.)
+(Windows/WSL2: use `sudo systemctl stop postgresql` and `sudo systemctl start postgresql`, or `sudo service postgresql stop` / `sudo service postgresql start` if systemd isn't enabled.)
 
 ## Defend It (do not paste into Gemini — answer it yourself)
 

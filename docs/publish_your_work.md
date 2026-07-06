@@ -34,13 +34,9 @@ Before pushing anything to a public repo, confirm:
 The folder you've been working in (`<cohort-clone>/dist/module_08_configuration/`) sits inside the cohort's git repo. The cleanest way to publish your own version is to copy the folder somewhere outside the cohort clone first, so the new repo's history starts from scratch.
 
 ```bash
-# macOS / Linux:
+# macOS / Linux (Windows: run inside your Ubuntu/WSL2 terminal — same commands):
 cp -R <cohort-clone>/dist/module_08_configuration ~/llm-question-log
 cd ~/llm-question-log
-
-# Windows (PowerShell):
-Copy-Item -Recurse <cohort-clone>\dist\module_08_configuration C:\dev\llm-question-log
-cd C:\dev\llm-question-log
 ```
 
 The folder name (`llm-question-log` above) becomes your repo name later. Pick a name that signals "this is mine" — `local-llm-question-log`, `<your-name>-llm-app`, etc.
@@ -101,10 +97,7 @@ Save it as `README.md` in your new folder, replacing the existing file.
 You're publishing this folder as its own repo with no inherited history.
 
 ```bash
-# macOS / Linux:
-rm -rf .git    # safety net — only present if you copied from inside an existing git repo
-# Windows (PowerShell):
-# Remove-Item -Recurse -Force .git -ErrorAction SilentlyContinue
+rm -rf .git    # safety net — only present if you copied from inside an existing git repo (Windows/WSL2: same command)
 
 git init
 git branch -M main

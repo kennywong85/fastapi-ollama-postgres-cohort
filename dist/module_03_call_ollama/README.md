@@ -57,7 +57,7 @@ First call may take 20+ seconds (Ollama loads the model into RAM).
 > The code catches `httpx.HTTPError` and returns a 502. Why 502 specifically and not 500? Coach me through the difference.
 
 **About the separate process:**
-> Open a new terminal and run `ps aux | grep ollama` (Mac/Linux) or `Get-Process ollama` (Windows). What do you see? Now explain why my FastAPI app cannot run without that process being alive.
+> Open a new terminal and run `ps aux | grep ollama` (Windows: run this in your Ubuntu/WSL2 terminal — same command). What do you see? Now explain why my FastAPI app cannot run without that process being alive.
 
 **Curiosity / "what if":**
 > What if I want to use a different Ollama model — say, `mistral` instead of `llama3.2`? Show me the smallest change. Then tell me what would break if I changed `OLLAMA_MODEL` to a model that isn't pulled.

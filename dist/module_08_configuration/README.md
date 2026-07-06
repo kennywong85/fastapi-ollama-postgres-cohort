@@ -57,10 +57,7 @@ This is the last module. By now you should be writing your own prompts more ofte
 This is the moment the doctrine becomes visible. Stop uvicorn (`Ctrl+C`), then:
 
 ```bash
-# macOS / Linux:
-mv .env .env.bak
-# Windows (PowerShell):
-Move-Item .env .env.bak
+mv .env .env.bak                  # Windows: same command, inside your Ubuntu (WSL2) terminal
 
 # Then start uvicorn WITHOUT --reload so the traceback is the first thing you see:
 uvicorn app.main:app
@@ -71,10 +68,7 @@ The server **refuses to start**. The traceback ends with `KeyError: 'DATABASE_UR
 Restore:
 
 ```bash
-# macOS / Linux:
-mv .env.bak .env
-# Windows (PowerShell):
-Move-Item .env.bak .env
+mv .env.bak .env                  # Windows: same command, inside your Ubuntu (WSL2) terminal
 
 uvicorn app.main:app --reload
 ```
