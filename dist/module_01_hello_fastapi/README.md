@@ -64,3 +64,4 @@ Add a second route at `/about` that returns the plain text `"About this app."`. 
 ## Defend It (do not paste into Gemini — answer it yourself)
 
 > Why `uvicorn app.main:app` and not `python app/main.py`?
+We use uvicorn app.main:app because main.py only defines the FastAPI application. Uvicorn starts the web server, opens port 8000, keeps the process running, receives HTTP requests, and passes them to FastAPI. Running python app/main.py would only execute the file and then exit because there is no server loop inside it.

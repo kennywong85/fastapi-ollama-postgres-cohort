@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
-OLLAMA_MODEL = "llama3.2"
+OLLAMA_MODEL = "qwen3.5:9b"
 
 app = FastAPI(title="Local LLM Question Log")
 

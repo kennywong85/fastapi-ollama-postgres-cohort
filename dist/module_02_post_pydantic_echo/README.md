@@ -89,3 +89,4 @@ Add a second field to `AskRequest`, e.g. `mood: str`. Save (uvicorn auto-reloads
 ## Defend It (do not paste into Gemini — answer it yourself)
 
 > Why is 422 different from 400 here? Couldn't they both be 400?
+422 means the request failed Pydantic validation because the required question field is missing or has the wrong type. 400 means the request has the correct structure, but the value is invalid, such as an empty question after trimming spaces. They could both broadly be called bad requests, but using different codes shows which layer rejected the request and makes debugging clearer.

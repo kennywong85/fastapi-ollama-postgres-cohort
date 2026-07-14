@@ -71,4 +71,5 @@ Change the question in your verify curl to something `llama3.2` will struggle wi
 
 ## Defend It (do not paste into Gemini — answer it yourself)
 
-> Why isn't `llama3.2` imported as a Python package? Why does it have to be a separate process running outside the app?
+> Why isn't `qwen` imported as a Python package? Why does it have to be a separate process running outside the app?
+Qwen is not imported like a normal Python library because the model is large and is managed by Ollama as a separate runtime. Ollama loads the model, performs inference, and exposes an HTTP API on port 11434, while FastAPI only sends requests and receives responses. Keeping them separate also makes it easier to swap models without rebuilding the application.

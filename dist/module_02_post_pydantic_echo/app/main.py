@@ -10,6 +10,16 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
 
+# Browser sends JSON
+#        ↓
+# Pydantic checks it
+#        ↓
+# FastAPI calls ask()
+#        ↓
+# AskResponse checks the output
+#        ↓
+# Browser receives JSON
+
 class AskRequest(BaseModel):
     question: str
 
