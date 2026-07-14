@@ -68,3 +68,4 @@ Change the `SYSTEM_PROMPT` constant in `app/main.py` to demand all answers as **
 ## Defend It (do not paste into Gemini — answer it yourself)
 
 > Why does the system prompt go into the same `messages` array as the user's question? Why isn't it a separate API parameter?
+The system prompt belongs in the same messages array because it is part of the context the model reads before generating a reply. The role tells the model that it is an instruction rather than a user question, while keeping everything in one ordered conversation format
