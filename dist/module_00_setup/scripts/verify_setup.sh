@@ -50,10 +50,10 @@ curl -sf http://localhost:11434/api/tags >/dev/null \
     || fail "Ollama not reachable at localhost:11434. Start it: ollama serve"
 ok "Ollama reachable at localhost:11434"
 
-# 8. Model llama3.2 available.
-curl -s http://localhost:11434/api/tags | grep -q '"name":"llama3.2' \
-    || fail "Model 'llama3.2' not pulled. Pull it: ollama pull llama3.2"
-ok "Model llama3.2 available"
+# 8. Model qwen3.5:9b available.
+curl -s http://localhost:11434/api/tags | grep -q '"name":"qwen3.5:9b' \
+    || fail "Model 'qwen3.5:9b' not pulled. Pull it: ollama pull qwen3.5:9b"
+ok "Model qwen3.5:9b available"
 
 echo
 echo "All checks passed. You're ready for Module 1."
