@@ -61,3 +61,4 @@ Move `SYSTEM_PROMPT` from `app/services/ollama_service.py` back into `app/main.p
 ## Defend It (do not paste into Gemini — answer it yourself)
 
 > We didn't change any behaviour. What did we gain?
+We gained clearer organisation and easier maintenance. Each file now has one main responsibility, so future changes to Ollama, PostgreSQL, or the data models can be made in the relevant file without digging through one large main.py.

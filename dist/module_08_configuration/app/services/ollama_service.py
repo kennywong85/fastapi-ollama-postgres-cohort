@@ -22,6 +22,7 @@ def call_ollama(question: str) -> str:
                     {"role": "user", "content": question},
                 ],
                 "stream": False,
+                "think": False,
             })
             r.raise_for_status()
             return r.json()["message"]["content"]

@@ -60,3 +60,4 @@ Change the `LIMIT 10` in the SQL query to `LIMIT 3`. Save (uvicorn auto-reloads)
 ## Defend It (do not paste into Gemini — answer it yourself)
 
 > Why does `/ask` return the history bundled with the answer instead of letting the browser call `/history` separately?
+Returning the answer and updated history together lets the browser refresh everything with one request. If the browser called /history separately, it would need another network request and extra code after every question.

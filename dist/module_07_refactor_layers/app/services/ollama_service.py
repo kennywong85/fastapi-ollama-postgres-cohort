@@ -2,7 +2,7 @@ import httpx
 from fastapi import HTTPException
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
-OLLAMA_MODEL = "llama3.2"
+OLLAMA_MODEL = "qwen3.5:9b"
 SYSTEM_PROMPT = (
     "You are a concise, helpful assistant. "
     "Answer in one short paragraph (under 80 words). "
@@ -20,6 +20,7 @@ def call_ollama(question: str) -> str:
                     {"role": "user", "content": question},
                 ],
                 "stream": False,
+                "think": False,
             })
             r.raise_for_status()
             return r.json()["message"]["content"]

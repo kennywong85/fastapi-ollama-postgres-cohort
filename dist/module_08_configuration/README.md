@@ -76,11 +76,13 @@ uvicorn app.main:app --reload
 ## Defend It (do not paste into Gemini — answer it yourself)
 
 > Why fail loudly on a missing environment variable instead of falling back to a default?
-
+A required environment variable should fail loudly if it is missing because silently using a default could make the app connect to the wrong database or service. An immediate error makes the configuration problem obvious before the application starts running with unintended settings.
 ---
 
 ## You're done. Now publish what you built.
 
 This is the final module. You have a working V1 — `Browser → FastAPI → Ollama → Postgres → Browser`, every line of which you can explain. The closing step of the course is publishing it to your own GitHub as a portfolio piece.
+
+
 
 The walk-through is in **[`docs/publish_your_work.md`](../../docs/publish_your_work.md)** at the cohort repo root — ~30 minutes, copy-paste commands for macOS and Windows, a personal-README template, plus a list of meaningful next-step extensions (chat sessions, RAG, streaming, deploy).

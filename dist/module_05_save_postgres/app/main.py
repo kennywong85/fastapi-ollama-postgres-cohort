@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
-OLLAMA_MODEL = "llama3.2"
+OLLAMA_MODEL = "qwen3.5:9b"
 SYSTEM_PROMPT = (
     "You are a concise, helpful assistant. "
     "Answer in one short paragraph (under 80 words). "
@@ -49,6 +49,7 @@ def ask(payload: AskRequest):
                     {"role": "user", "content": question},
                 ],
                 "stream": False,
+                    "think": False,
             })
             r.raise_for_status()
             answer = r.json()["message"]["content"]
