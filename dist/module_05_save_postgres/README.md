@@ -75,3 +75,4 @@ Then ask three different questions in the browser. After each, run the SELECT fr
 ## Defend It (do not paste into Gemini — answer it yourself)
 
 > Why save to a database instead of an in-memory Python list? What does the database give us that a list does not?
+A Python list exists only in the running app’s memory, so its contents disappear when the process stops. A database stores the information persistently, allowing the app to retrieve it later even after Uvicorn or the computer has restarted.

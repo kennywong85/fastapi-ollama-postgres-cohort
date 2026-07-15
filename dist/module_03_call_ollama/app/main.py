@@ -47,3 +47,32 @@ def ask(payload: AskRequest):
             detail="Ollama is not reachable. Check that Ollama is running locally."
         )
     return AskResponse(answer=answer)
+
+
+# Open an HTTP client.
+# 
+# Send a POST request to Ollama.
+# 
+# Tell Ollama:
+# - use qwen3.5:9b
+# - here is the user’s message
+# - give me the whole answer at once
+# 
+# Wait for Ollama’s response.
+# 
+# If Ollama returned an error,
+# do not pretend it worked.
+# 
+# Take only the generated answer text.
+
+# Browser
+# customer
+# 
+# FastAPI
+# = waiter
+# 
+# Ollama
+# = kitchen
+# 
+# qwen3.5:9b
+# = chef
